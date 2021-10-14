@@ -233,7 +233,7 @@
             <input type="text" class="form-control" id="slug" name="slug">
         </div>
         <div class="form-group">
-            <label for="kategori">Kategory Postingan</label>
+            <label for="kategori">Kategori Postingan</label>
             <input type="text" class="form-control" id="kategori" name="kategori">
         </div>
         <div class="form-group">
@@ -247,7 +247,7 @@
             <div class="col-md-8">
             <label for="deskripsi">Deskripsi Postingan</label>
                 <br>
-                <textarea name="deskripsi" id="deskripsi" cols="30" rows="10"></textarea>
+                <textarea name="deskripsi" id="deskripsi"></textarea>
             </div>
     </form>   
         </div>
