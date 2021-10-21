@@ -49,7 +49,7 @@ $routes->post('/saveRegister', 'Templating::saveRegister');
 $routes->get('/posts', 'PostController::index');
 $routes->get('/admin/posts', 'AdminPostsController::index');
 $routes->get('/admin/posts/create', 'AdminPostsController::create');
-$routes->get('/admin/posts/store', 'AdminPostsController::store');
+$routes->post('/admin/posts/store', 'AdminPostsController::store');
 $routes->get('/about', function(){
 	$data = [
 		'title' => "Blog - About"
