@@ -5,6 +5,8 @@ use App\Controllers\BaseController;
 
 class AdminPostsController extends BaseController
 {
+
+	
 	public function index()
 	{
 		$PostModel = model("PostModel");
@@ -73,4 +75,60 @@ class AdminPostsController extends BaseController
 		}
 
 	}
+
+	public function delete($id){
+
+		$PostModel = model("PostModel");
+		$PostModel->delete($id);
+		return redirect()->to(base_url('admin/posts'));
+	}
+
+	public function edit($slug){
+		$PostModel = model("PostModel");
+		session();
+		$data = [
+			'validation' => \Config\Services::validation(),
+            'posts' => $PostModel->getPost($slug),
+	
+        ];
+		return view('posts/edit',$data);
+	}
+
+	public function update($post_id)
+    {
+		$PostModel = model("PostModel");
+
+		$postLama = $PostModel->getPost($this->request->getVar('slug'));
+		if($postLama['judul'] == $this->request->getVar('judul')){
+			$rule_judul = 'required';
+		} else{
+			$rule_judul = 'required|is_unique[posts.judul]';
+		}
+
+		if(!$this->validate([
+			'judul' => [
+				'rules' => $rule_judul,
+				'errors' =>[
+					'required' => '{field} harus diisi',
+					'is_unique' => '{field} sudah terdaftar'
+				]
+			]
+		])) {
+			$validation = \Config\Services::validation();
+			return redirect()->to('admin/posts/edit/' .$this->request->getVar('slug'))->withInput()->with('validation',$this->validator);
+		}
+		
+		$slug = url_title($this->request->getVar('judul'), '-', true);
+		$PostModel->save([
+			'post_id' => $post_id,
+			'judul' => $this->request->getVar('judul'),
+			'slug' => $this->request->getVar('slug'),
+			'kategori' => $this->request->getVar('kategori'),
+			'author' => $this->request->getVar('author'),
+			'deskripsi' => $this->request->getVar('deskripsi'),
+		]);
+		return redirect()->to('/admin/posts');
+	}
+    
+
 }
